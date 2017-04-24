@@ -48,6 +48,42 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "In onPut");
         final TextView txtBox = (TextView) findViewById(R.id.textView);
 
+        StringRequest sr = new StringRequest(Request.Method.POST,
+                "https://luca-ucsc-teaching-backend.appspot.com/hw3/request_via_post",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //source: http://stackoverflow.com/questions/18192891/
+                        //        conversion-from-string-to-json-object-android
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String responseStr = obj.getString("result");
+                            txtBox.setText(responseStr);
+                        }catch(Throwable t){
+                            Log.d(LOG_TAG, "Could not parse malformed JSON: \"" + response + "\"");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("token", "abracadabra");
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+
     }
 
     //get button pressed
