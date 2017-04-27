@@ -34,7 +34,7 @@
         android:layout_height="35dp"
         android:layout_marginRight="55dp"
         android:onClick="onPut"
-        android:text="Put"
+        android:text="Post"
         app:layout_constraintBaseline_toBaselineOf="@+id/get_button"
         app:layout_constraintRight_toRightOf="parent" />
 
